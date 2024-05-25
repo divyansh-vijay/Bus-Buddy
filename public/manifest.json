@@ -1,0 +1,28 @@
+{
+    "name": "My awesome PWA app",
+    "short_name": "PWA App",
+    "icons": [
+      {
+        "src": "/busSchool-192.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "/busSchool-384.png",
+        "sizes": "384x384",
+        "type": "image/png"
+      },
+      {
+        "src": "/busSchool-512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "theme_color": "#317EFB",
+    "background_color": "#317EFB",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait"
+  }
+  
