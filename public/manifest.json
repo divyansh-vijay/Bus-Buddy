@@ -1,6 +1,6 @@
 {
-    "name": "My awesome PWA app",
-    "short_name": "PWA App",
+    "name": "Bus Buddy",
+    "short_name": "Bus Buddy",
     "icons": [
       {
         "src": "/busSchool-192.png",
