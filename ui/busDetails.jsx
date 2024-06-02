@@ -6,9 +6,9 @@ import LocationIcon from "../public/timeIcon.svg"
 
 const BusDetailPannel = () => {
 
-    return ( 
+    return (
         <>
-            <div className="h-[65%] w-[98%] flex items-start justify-around flex-col overflow-x-auto">
+            <div className="h-[65%] w-[98%] flex items-start justify-around flex-col overflow-x-hidden p-2">
                 <h1 className="text-[30px] font-bold">Bus 44</h1>
                 <p className="text-[15px] tracking-tight font-normalpy-[30px]">Currently at PSIT Bhauti Khera</p>
                 <div className=" h-[15px] w-full flex items-center justify-between py-[25px]">
