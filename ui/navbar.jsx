@@ -6,7 +6,7 @@ const Navbar = () => {
             </svg>
             <h1 className="text-black text-[20px] font-bold tracking-tight">Bus Buddy</h1> 
 
-            <button className="h-[50px] w-[50px] rounded-[50%] bg-black absolute right-[20px] hover:border-[3px] border-red-500">
+            <button className="h-[80%] w-[3%] rounded-[50%] bg-black absolute right-[20px] hover:border-[3px] border-red-500">
 
             </button>
 
