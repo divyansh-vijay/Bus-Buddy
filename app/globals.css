@@ -20,6 +20,7 @@ body {
   background-color: white;
   height: 100dvh;
   WIDTH: 100dvW;
+  overflow: hidden;
 }
 
 @layer utilities {
