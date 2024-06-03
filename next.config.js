@@ -12,6 +12,15 @@ const withPWA = require("@ducanh2912/next-pwa").default({
     }
   });
 
-const nextConfig = {}
+  const nextConfig = {
+    reactStrictMode: true,
+    webpack(config) {
+      config.module.rules.push({
+        test: /\.svg$/,
+        use: ["@svgr/webpack"],
+      });
+      return config;
+    },
+  };
 
 module.exports = withPWA(nextConfig);

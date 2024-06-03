@@ -1,33 +1,26 @@
 import Navbar from "@/ui/navbar";
 import BusInfo from "@/ui/businfo";
-import { initializeApp, ref, on } from "firebase/app"
-import { getDatabase, ref, set } from "firebase/database"
+import MapPage from "@/ui/map";
+import DelayIcon from "../public/delayIcon.svg"
+import TimeIcon from "../public/locationIcon.svg"
+import LocationIcon from "../public/timeIcon.svg"
+import BusCards from "@/components/busCard"
+import BusDetailPannel from "@/ui/busDetails";
 
 export default function Home() {
-	// const getDat
-	const firebaseConfig = {
-		apiKey: "AIzaSyDbfHQRv0sxBJRdzM2fl6fZ8e-jg74P8mQ",
-		authDomain: "bus-tracking-psit.firebaseapp.com",
-		databaseURL:
-			"https://bus-tracking-psit-default-rtdb.asia-southeast1.firebasedatabase.app",
-		projectId: "bus-tracking-psit",
-		storageBucket: "bus-tracking-psit.appspot.com",
-		messagingSenderId: "465678396480",
-		appId: "1:465678396480:web:f3b0d9777358838bd483a5",
-	}
-
-	// Initialize Firebase
-	const app = initializeApp(firebaseConfig)
-	const ref = app.ref("/")
-	console.log(ref)
-	ref.on("value").then(function (snapshot) {
-		console.log({ snapshot })
-	})
 
 	return (
-		<main className="h-[100%] w-[100%]">
+		<main className="h-full max-w-full md:h-[100%] md:w-[100%] flex flex-col overflow-hidden">
 			<Navbar></Navbar>
-			<BusInfo></BusInfo>
+			<div className="h-full overflow-auto">
+				<div className="h-max md:h-full w-full flex flex-col md:flex-row">
+					<BusInfo></BusInfo>
+					<div className="h-max w-full md:h-full flex flex-col items-center justify-start md:justify-around gap-y-[10px]">
+						<MapPage></MapPage>
+						<BusDetailPannel/>
+					</div>
+				</div>
+			</div>
 		</main>
 	)
 }
