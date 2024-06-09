@@ -1,5 +1,5 @@
-import BusStopInterval from "@/components/stopDisplay"
-import BusCards from "@/components/busCard"
+import BusStopInterval from "@/components/StopDisplay"
+import BusCards from "@/components/BusCard"
 import DelayIcon from "../public/delayIcon.svg"
 import TimeIcon from "../public/locationIcon.svg"
 import LocationIcon from "../public/timeIcon.svg"
