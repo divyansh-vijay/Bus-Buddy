@@ -22,6 +22,8 @@ body {
 	/* height: 100dvh;
 	width: 100dvw; */
 	overflow: hidden;
+	align-items: center;
+	justify-content: center;
 }
 
 @layer utilities {

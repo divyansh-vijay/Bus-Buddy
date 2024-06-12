@@ -1,7 +1,9 @@
-const Input = ({ style }) => {
+const Input = ({ style, value, onChange }) => {
 	return (
 		<input
 			style={style}
+			value={value}
+			onChange={(e) => onChange(e.target.value)}
 			className="h-[50px] w-[80%] md:w-full rounded-[10px] px-[15px] border-[2px] border-gray-300 text-[15px]"
 			type="text"
 			placeholder="Enter bus number"
