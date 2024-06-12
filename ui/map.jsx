@@ -1,12 +1,7 @@
 const MapPage = () => {
-    return ( 
-        <>
-                <div className="md:h-[30%] h-[300px] w-[95%] md:w-[98%] bg-gray-200 rounded-[20px]">
-
-                </div>
-           
-        </>
-     );
+	return (
+		<div className="min-h-[400px] w-[95%] bg-gray-200 rounded-[20px]"></div>
+	)
 }
- 
-export default MapPage;
+
+export default MapPage
