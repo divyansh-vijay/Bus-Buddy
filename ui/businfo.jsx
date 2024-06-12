@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import Input from "@/components/Input"
-import Button from "@/components/Button"
+import Input from "../components/Input"
+import Button from "../components/Button"
 
 const BusInfo = ({ id }) => {
 	const [busId, setBusId] = useState("")
@@ -32,13 +32,17 @@ const BusInfo = ({ id }) => {
 				Search by bus number
 			</h1>
 			<Input
+				color="black"
+				height={"40px"}
 				value={busId}
 				setBusId={setBusId}
 				onChange={(value) => {
 					setBusId(value)
 				}}
 			/>
-			<Button onClick={handleSearch}>Search bus</Button>
+			<Button height={"40px"} onClick={handleSearch}>
+				Search bus
+			</Button>
 		</div>
 	)
 }
