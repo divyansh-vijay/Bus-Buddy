@@ -1,4 +1,4 @@
-import BusStopInterval from "../components/StopDisplay"
+import StopDisplay from "../components/StopDisplay"
 import BusCards from "../components/BusCard"
 import DelayIcon from "../public/delayIcon.svg"
 import TimeIcon from "../public/locationIcon.svg"
@@ -44,7 +44,7 @@ const BusDetails = ({ data }) => {
 						style={{ width: `${data.etaPercentage}%` }}></div>
 				</div>
 				<p className="text-[13px] text-gray-400">Delayed</p>
-				{data ? <BusStopInterval data={data} /> : null}
+				{data ? <StopDisplay data={data} /> : null}
 			</div>
 			<div className="h-max w-full flex justify-center md:justify-evenly flex-col md:flex-row flex-wrap gap-y-2 p-2">
 				<BusCards
