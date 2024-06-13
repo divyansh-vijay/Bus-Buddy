@@ -13,7 +13,6 @@ import Image from "next/image"
 import { Polygon } from "../components/Polygon"
 import { Polyline } from "../components/Polyline"
 import dummyData from "../public/fullDistance.json"
-import polyline from "@mapbox/polyline"
 
 function calculateDistance(lat1, lng1, lat2, lng2) {
 	const R = 6371 // Radius of the Earth in kilometers

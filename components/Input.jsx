@@ -11,6 +11,7 @@ const Input = ({
 	type = "text",
 	required,
 }) => {
+	console.log(height)
 	return (
 		<input
 			style={{
