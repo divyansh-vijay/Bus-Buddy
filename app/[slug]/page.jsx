@@ -1,9 +1,9 @@
 "use client"
 
-import Navbar from "./../../ui/Navbar.jsx"
-import BusInfo from "./../../ui/BusInfo.jsx"
-import MapPage from "./../../ui/map.jsx"
-import BusDetailPannel from "./../../ui/busDetails"
+// import Navbar from "./../../ui/Navbar.jsx"
+// import BusInfo from "./../../ui/BusInfo.jsx"
+// import MapPage from "./../../ui/map.jsx"
+// import BusDetailPannel from "./../../ui/busDetails"
 import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 
@@ -178,7 +178,8 @@ export default function Home() {
 
 	return (
 		<main className="h-screen w-screen max-w-[1680px] flex flex-col overflow-hidden ">
-			<Navbar></Navbar>
+			testing
+			{/* <Navbar></Navbar>
 			<div className="h-full md:h-[92%] w-full flex flex-col md:flex-row overflow-auto items-center">
 				<BusInfo busId={pathname.split("/")[1]}></BusInfo>
 				<div className="max-h-full w-full flex flex-col items-center justify-start gap-y-[10px] md:overflow-auto py-2">
@@ -198,7 +199,7 @@ export default function Home() {
 						</>
 					) : null}
 				</div>
-			</div>
+			</div> */}
 		</main>
 	)
 }

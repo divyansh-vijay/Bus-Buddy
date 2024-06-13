@@ -1,5 +1,3 @@
-"use client"
-
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import Input from "../components/Input"
