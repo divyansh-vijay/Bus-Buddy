@@ -1,7 +1,6 @@
 "use client"
 
 import LoginPage from "../../ui/LoginPage"
-import { useState } from "react"
 
 const Page = () => {
 	return (
