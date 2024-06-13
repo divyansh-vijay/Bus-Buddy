@@ -21,7 +21,7 @@ const secToHrs = (seconds) => {
 
 	return formattedTime
 }
-const BusDetailPannel = ({ data }) => {
+const BusDetails = ({ data }) => {
 	// console.log(!data)
 	return (
 		<div className="min-h-max w-[98%] flex items-start justify-start flex-col p-2 gap-2">
@@ -78,4 +78,4 @@ const BusDetailPannel = ({ data }) => {
 	)
 }
 
-export default BusDetailPannel
+export default BusDetails

@@ -1,9 +1,9 @@
 "use client"
 
-import Navbar from "./../../ui/Navbar.jsx"
+import Navbar from "../../ui/Navbar.jsx"
 import BusInfo from "./../../ui/BusInfo.jsx"
-import MapPage from "./../../ui/map.jsx"
-import BusDetailPannel from "./../../ui/busDetails"
+import MapPage from "../../ui/Map.jsx"
+import BusDetails from "../../ui/BusDetails.jsx"
 import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 
@@ -195,7 +195,7 @@ export default function Home() {
 								setCurrentBusDetails={
 									setCurrentBusDetails
 								}></MapPage>
-							<BusDetailPannel data={currentBusDetails} />
+							<BusDetails data={currentBusDetails} />
 						</>
 					) : null}
 				</div>
