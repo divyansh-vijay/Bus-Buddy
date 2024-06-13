@@ -1,9 +1,9 @@
 "use client"
 
-import Navbar from "../../ui/navbar"
-import BusInfo from "../../ui/busInfo"
-import MapPage from "../../ui/map"
-import BusDetailPannel from "../../ui/busDetails"
+import Navbar from "../../ui/Navbar.jsx"
+import BusInfo from "./../../ui/BusInfo.jsx"
+import MapPage from "../../ui/Map.jsx"
+import BusDetails from "../../ui/BusDetails.jsx"
 import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 
@@ -178,6 +178,7 @@ export default function Home() {
 
 	return (
 		<main className="h-screen w-screen max-w-[1680px] flex flex-col overflow-hidden ">
+			testing
 			<Navbar></Navbar>
 			<div className="h-full md:h-[92%] w-full flex flex-col md:flex-row overflow-auto items-center">
 				<BusInfo busId={pathname.split("/")[1]}></BusInfo>
@@ -194,7 +195,7 @@ export default function Home() {
 								setCurrentBusDetails={
 									setCurrentBusDetails
 								}></MapPage>
-							<BusDetailPannel data={currentBusDetails} />
+							<BusDetails data={currentBusDetails} />
 						</>
 					) : null}
 				</div>

@@ -1,4 +1,4 @@
-const BusStopInterval = ({ data }) => {
+const StopDisplay = ({ data }) => {
 	return (
 		<>
 			<div className="h-max w-full flex flex-row ">
@@ -32,4 +32,4 @@ const BusStopInterval = ({ data }) => {
 	)
 }
 
-export default BusStopInterval
+export default StopDisplay

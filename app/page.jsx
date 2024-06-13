@@ -1,5 +1,5 @@
 import Navbar from "../ui/Navbar"
-import BusInfo from "../ui/busInfo"
+import BusInfo from "../ui/BusInfo"
 
 export default function Home() {
 	return (

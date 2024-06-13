@@ -1,4 +1,4 @@
-import BusStopInterval from "../components/StopDisplay"
+import StopDisplay from "../components/StopDisplay"
 import BusCards from "../components/BusCard"
 import DelayIcon from "../public/delayIcon.svg"
 import TimeIcon from "../public/locationIcon.svg"
@@ -21,7 +21,7 @@ const secToHrs = (seconds) => {
 
 	return formattedTime
 }
-const BusDetailPannel = ({ data }) => {
+const BusDetails = ({ data }) => {
 	// console.log(!data)
 	return (
 		<div className="min-h-max w-[98%] flex items-start justify-start flex-col p-2 gap-2">
@@ -44,7 +44,7 @@ const BusDetailPannel = ({ data }) => {
 						style={{ width: `${data.etaPercentage}%` }}></div>
 				</div>
 				<p className="text-[13px] text-gray-400">Delayed</p>
-				{data ? <BusStopInterval data={data} /> : null}
+				{data ? <StopDisplay data={data} /> : null}
 			</div>
 			<div className="h-max w-full flex justify-center md:justify-evenly flex-col md:flex-row flex-wrap gap-y-2 p-2">
 				<BusCards
@@ -78,4 +78,4 @@ const BusDetailPannel = ({ data }) => {
 	)
 }
 
-export default BusDetailPannel
+export default BusDetails

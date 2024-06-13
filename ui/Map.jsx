@@ -1,4 +1,3 @@
-"use client"
 import BusImage from "../public/busSchool-192.png"
 import React, { useState, useEffect } from "react"
 import {
