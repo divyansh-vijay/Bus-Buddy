@@ -1,9 +1,9 @@
 "use client"
 
-import Navbar from "../../ui/Navbar.jsx"
-import BusInfo from "../../ui/BusInfo.jsx"
-import MapPage from "../../ui/map.jsx"
-import BusDetailPannel from "../../ui/busDetails"
+import Navbar from "./../../ui/Navbar.jsx"
+import BusInfo from "./../../ui/BusInfo.jsx"
+import MapPage from "./../../ui/map.jsx"
+import BusDetailPannel from "./../../ui/busDetails"
 import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 
