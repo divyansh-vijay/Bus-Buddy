@@ -5,8 +5,10 @@ import TimeIcon from "../public/locationIcon.svg"
 import LocationIcon from "../public/timeIcon.svg"
 const secToHrs = (seconds) => {
 	// console.log({ seconds })
-	var min = Math.floor(seconds / 60)
 	var hrs = Math.floor(seconds / 60 / 60)
+	var min = Math.floor(seconds / 60 - hrs * 60)
+	var ampm = hrs < 12 ? "am" : "pm"
+
 	if (hrs < 10) {
 		hrs = `0${hrs}`
 	}
@@ -14,9 +16,9 @@ const secToHrs = (seconds) => {
 		min = `0${min}`
 	}
 	if (hrs == 0) {
-		var formattedTime = `${min} mins `
+		var formattedTime = `00 : ${min} ${ampm}`
 	} else {
-		var formattedTime = `${hrs} hours ${min} mins `
+		var formattedTime = `${hrs} : ${min} ${ampm}`
 	}
 
 	return formattedTime
@@ -35,7 +37,7 @@ const BusDetails = ({ data }) => {
 						Estimated arrival time
 					</p>
 					<p className="text-[15px] tracking-tight font-semibold">
-						{secToHrs(data.eta)}
+						{data.eta}
 					</p>
 				</div>
 				<div className="w-full bg-gray-300 rounded-full h-1.5 mb-4">
@@ -50,9 +52,7 @@ const BusDetails = ({ data }) => {
 				<BusCards
 					svgIcon={<DelayIcon />}
 					busPropertyName="Delay"
-					busPropertyInfo={
-						secToHrs(data.delay) + "(according to google maps)"
-					}></BusCards>
+					busPropertyInfo={data.delay}></BusCards>
 				{/* <BusCards
 						svgIcon={<TimeIcon />}
 						busPropertyName="Estimated Time Arrival"
@@ -64,7 +64,7 @@ const BusDetails = ({ data }) => {
 				<BusCards
 					svgIcon={<LocationIcon />}
 					busPropertyName="Next Stop"
-					busPropertyInfo={data.nextStop}></BusCards>
+					busPropertyInfo={data.nextStop[0]}></BusCards>
 				<BusCards
 					svgIcon={<LocationIcon />}
 					busPropertyName="Driver Contact"

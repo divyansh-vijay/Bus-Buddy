@@ -11,7 +11,9 @@ const StopDisplay = ({ data }) => {
 								{data.lastStop[0] || ""}
 							</p>
 							<p className="text-[12px] text-gray-400">
-								{data.lastStop[1]}
+								{/* {data.lastStop[1]}
+								 */}
+								Last stop
 							</p>
 						</div>
 					</div>
