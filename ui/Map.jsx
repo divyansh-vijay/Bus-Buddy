@@ -9,9 +9,73 @@ import {
 	useMap,
 } from "@vis.gl/react-google-maps"
 import Image from "next/image"
-import { Polygon } from "../components/Polygon"
+// import { Polygon } from "../components/Polygon"
 import { Polyline } from "../components/Polyline"
 import dummyData from "../public/fullDistance.json"
+import { ClientPageRoot } from "next/dist/client/components/client-page"
+const secToHrs = (seconds) => {
+	seconds = Math.abs(seconds)
+	var hrs = Math.floor(seconds / 60 / 60)
+	var min = Math.floor(seconds / 60 - hrs * 60)
+	if (hrs < 10) {
+		hrs = `0${hrs}`
+	}
+	if (min < 10) {
+		min = `0${min}`
+	}
+	if (hrs == 0) {
+		var formattedTime = `${min} mins `
+	} else {
+		var formattedTime = `${hrs} hours ${min} mins `
+	}
+
+	return formattedTime
+}
+const secToFormattedHrs = (seconds) => {
+	seconds = Math.abs(seconds)
+	var hrs = Math.floor(seconds / 60 / 60)
+	var min = Math.floor(seconds / 60 - hrs * 60)
+	var ampm = hrs < 12 ? "am" : "pm"
+	if (hrs < 10) {
+		hrs = `0${hrs}`
+	}
+	if (min < 10) {
+		min = `0${min}`
+	}
+	if (hrs == 0) {
+		var formattedTime = `${min}`
+	} else {
+		var formattedTime = `${hrs}:${min} ${ampm} `
+	}
+
+	return formattedTime
+}
+function formattedTimeToSec(time) {
+	// time = hr:min
+	var [hr, min] = time.split(":")
+
+	var inSec = parseInt(hr) * 60 * 60 + parseInt(min) * 60
+	// console.log({ hr, min, inSec })
+	return inSec
+}
+
+function differenceBetweenTwoDatesInSec(date1, date2) {
+	// Parse the date strings to Date objects
+	const d1 = new Date(date1)
+	const d2 = new Date(date2)
+
+	// Get the time in milliseconds for each date
+	const time1 = d1.getTime()
+	const time2 = d2.getTime()
+	// console.log({ date1, date2, time1, time2 })
+	// Calculate the difference in milliseconds
+	const diffInMs = Math.abs(time2 - time1)
+
+	// Convert milliseconds to seconds
+	const diffInSec = diffInMs / 1000
+
+	return diffInSec
+}
 
 function calculateDistance(lat1, lng1, lat2, lng2) {
 	const R = 6371 // Radius of the Earth in kilometers
@@ -62,6 +126,12 @@ function findClosestPoint(origin, legs) {
 	if (leastDistance * 1000 > 80) {
 		return { closestPoint: origin, legI, stepI }
 	}
+	if (stepI + 1 > legs[legI].steps.length - 1) {
+		stepI = 0
+		legI++
+	} else {
+		stepI++
+	}
 	return { closestPoint, legI, stepI }
 }
 
@@ -87,8 +157,13 @@ function findDistance(legI, stepI, route) {
 	return { duration, distance }
 }
 
-const MapPage = ({ currentBusLatlng, data, setCurrentBusDetails }) => {
-	const geometryLibrary = useMapsLibrary("geometry")
+const MapPage = ({
+	currentBusLatlng,
+	data,
+	setCurrentBusDetails,
+	setCurrentBusLatlng,
+}) => {
+	// const geometryLibrary = useMapsLibrary("geometry")
 	const GOOGLE_MAPS_API_KEY = "AIzaSyDbfHQRv0sxBJRdzM2fl6fZ8e-jg74P8mQ"
 	const [path, setPath] = useState([])
 	const [marker, setMarker] = useState([])
@@ -97,109 +172,163 @@ const MapPage = ({ currentBusLatlng, data, setCurrentBusDetails }) => {
 		useState(currentBusLatlng)
 
 	useEffect(() => {
-		// console.log(path)
-		if (
-			!currentBusLatlng.hasOwnProperty("lat") ||
-			!path ||
-			(currentBusLatlng["lat"] == 0 && currentBusLatlng["lng"] == 0)
-		)
-			return
+		const interval = setInterval(() => {
+			if (
+				!currentBusLatlng.hasOwnProperty("lat") ||
+				!path ||
+				(currentBusLatlng["lat"] == 0 && currentBusLatlng["lng"] == 0)
+			)
+				return
 
-		var { closestPoint, legI, stepI } = findClosestPoint(
-			currentBusLatlng,
-			dummyData.routes[0].legs
-		)
+			var { closestPoint, legI, stepI } = findClosestPoint(
+				currentBusLatlng,
+				dummyData.routes[0].legs
+			)
 
-		setCurrentEditedLatLng(closestPoint)
+			setCurrentEditedLatLng(closestPoint)
 
-		// var currentLocation =  dummyData.routes[0].legs[legI].steps[stepI].
-		// console.log(data)
-		// console.log(data.waypoints[legI], data.waypoints[legI + 1])
-		// setCurrentLocation(data.waypoints[legI])
-		// setNextStop(data.waypoints[legI + 1])
+			// var currentDate = `${new Date().getFullYear()}-${
+			// 	new Date().getMonth() + 1
+			// }-${new Date().getDate()}`
 
-		// console.log({ closestPoint, legI, stepI })
-		var { duration, distance } = findDistance(legI, stepI, dummyData.routes) // Finds the distance left from current point
-		var currentDurationAccordingToSpeed =
-			distance / ((data.speed * 1000) / 60 / 60)
-		// console.log({
-		// 	duration,
-		// 	speed: data.speed,
-		// 	currentDurationAccordingToSpeed,
-		// })
-		var delay = duration - currentDurationAccordingToSpeed
-		var totalDuration = 0
-		dummyData.routes[0].legs.forEach((leg) => {
-			totalDuration += leg.duration.value
-		})
+			var { duration, distance } = findDistance(
+				legI,
+				stepI,
+				dummyData.routes
+			) // Finds the distance left from current point
+			console.log({ distance })
+			// console.log({
+			// 	legI,
+			// 	stepI,
+			// 	duration,
+			// 	distance,
+			// 	route: dummyData.routes,
+			// })
 
-		var etaPercentage = (duration / totalDuration) * 100
-		var eta = currentDurationAccordingToSpeed
-		// console.log(eta)
-		setCurrentBusDetails((prev) => ({
-			...prev,
-			lastStop: [
-				data.waypoints[legI].location,
-				data.waypoints[legI].time,
-			],
-			nextStop: [
-				data.waypoints[legI + 1].location,
-				data.waypoints[legI + 1].time,
-			],
-			delay,
-			eta,
-			etaPercentage,
-		}))
+			var currentDurationAccordingToSpeed =
+				distance / ((data.speed * 1000) / 60 / 60)
+			// currentDurationAccordingToSpeed = 60 * 60
+			console.log({ currentDurationAccordingToSpeed })
+			var currentTimeAccordingToSpeed =
+				// 8 * 60 * 60 +
+				// 0 +
+				new Date().getHours() * 60 * 60 +
+				new Date().getMinutes() * 60 +
+				currentDurationAccordingToSpeed
 
-		// console.log(dummyData.routes[0])
-		// console.log(dummyData.routes[0].legs)
-		// console.log({ currentBusLatlng })
-		// setMarker((prev) => [
-		// 	...prev,
-		// 	findClosestPoint(
-		// 		currentBusLatlng,
-		// 		dummyData.routes[0].legs[0].steps
-		// 	),
-		// ])
+			// var dayChangeInSeconds = differenceBetweenTwoDatesInSec(
+			// 	data.busStartDate,
+			// 	currentDate
+			// )
 
-		// setMarker((prev) => [
-		// 	...prev,
-		// 	findClosestPoint(
-		// 		currentBusLatlng,
-		// 		dummyData.routes[0].legs[1].steps
-		// 	),
-		// ])
-		// setMarker((prev) => [
-		// 	...prev,
-		// 	findClosestPoint(
-		// 		currentBusLatlng,
-		// 		dummyData.routes[0].legs[2].steps
-		// 	),
-		// ])
-		// setMarker((prev) => [
-		// 	...prev,
-		// 	findClosestPoint(
-		// 		currentBusLatlng,
-		// 		dummyData.routes[0].legs[3].steps
-		// 	),
-		// ])
-		// setMarker((prev) => [
-		// 	...prev,
-		// 	findClosestPoint(
-		// 		currentBusLatlng,
-		// 		dummyData.routes[0].legs[4].steps
-		// 	),
-		// ])
-		// findClosestPoint(currentBusLatlng, dummyData.routes[0].legs[1].steps)
-		// findClosestPoint(currentBusLatlng, dummyData.routes[0].legs[2].steps)
-		// findClosestPoint(currentBusLatlng, dummyData.routes[0].legs[3].steps)
-		// findClosestPoint(currentBusLatlng, dummyData.routes[0].legs[4].steps)
-		// console.log(dummyData)
-	}, [path, currentBusLatlng])
+			var designatedTimeToReachDestination = formattedTimeToSec(
+				data.waypoints[data.waypoints.length - 1].time
+			)
+			// console.log({
+			// 	x: data.waypoints[data.waypoints.length - 1].time,
+			// 	designatedTimeToReachDestination,
+			// 	currentTimeAccordingToSpeed,
+			// })
 
-	// useEffect(() => {
-	// 	console.log({ currentEditedLatLng })
-	// }, [currentEditedLatLng])
+			var delayInSec = Math.abs(
+				designatedTimeToReachDestination - currentTimeAccordingToSpeed
+			)
+
+			// var delay =
+			// 	Math.floor(
+			// 		designatedTimeToReachDestination -
+			// 			currentTimeAccordingToSpeed +
+			// 			dayChangeInSeconds
+			// 	) > 0
+			// 		? secToHrs(
+			// 				Math.floor(
+			// 					designatedTimeToReachDestination -
+			// 						currentTimeAccordingToSpeed +
+			// 						dayChangeInSeconds
+			// 				)
+			// 		  ) + "Early"
+			// 		: Math.floor(
+			// 				Math.abs(
+			// 					designatedTimeToReachDestination -
+			// 						currentTimeAccordingToSpeed +
+			// 						dayChangeInSeconds
+			// 				)
+			// 		  ) == 0
+			// 		? "On Time"
+			// 		: secToHrs(
+			// 				Math.floor(
+			// 					designatedTimeToReachDestination -
+			// 						currentTimeAccordingToSpeed +
+			// 						dayChangeInSeconds
+			// 				)
+			// 		  ) + "Late"
+			var delay =
+				Math.floor(
+					designatedTimeToReachDestination -
+						currentTimeAccordingToSpeed
+				) > 0
+					? secToHrs(
+							Math.floor(
+								designatedTimeToReachDestination -
+									currentTimeAccordingToSpeed
+							)
+					  ) + "Early"
+					: Math.floor(
+							Math.abs(
+								designatedTimeToReachDestination -
+									currentTimeAccordingToSpeed
+							)
+					  ) == 0
+					? "On Time"
+					: secToHrs(
+							Math.floor(
+								designatedTimeToReachDestination -
+									currentTimeAccordingToSpeed
+							)
+					  ) + "Late"
+
+			// var totalDuration = 0
+
+			// dummyData.routes[0].legs.forEach((leg) => {
+			// 	totalDuration += leg.duration.value
+			// })
+
+			// var etaPercentage = (duration / totalDuration) * 100
+
+			var eta = secToFormattedHrs(currentTimeAccordingToSpeed)
+			console.log(secToFormattedHrs(currentTimeAccordingToSpeed))
+			// // console.log(data.waypoints[legI + 1])
+			setCurrentBusDetails((prev) => ({
+				...prev,
+				lastStop: [
+					data.waypoints[legI].location,
+					secToFormattedHrs(
+						formattedTimeToSec(data.waypoints[legI].time) +
+							delayInSec
+					),
+				],
+				nextStop: [
+					data.waypoints[legI + 1].location,
+					secToFormattedHrs(
+						formattedTimeToSec(data.waypoints[legI + 1].time) +
+							delayInSec
+					),
+				],
+				delay,
+				eta,
+				// etaPercentage,
+			}))
+
+			console.log("hi")
+		}, 1000)
+		return () => {
+			clearInterval(interval)
+		}
+	}, [path, currentBusLatlng, data])
+
+	useEffect(() => {
+		console.log({ currentEditedLatLng })
+	}, [currentEditedLatLng])
 
 	// useEffect(() => {
 	// 	console.log(currentBusLatlng)
@@ -213,6 +342,10 @@ const MapPage = ({ currentBusLatlng, data, setCurrentBusDetails }) => {
 					defaultZoom={10}
 					gestureHandling={"greedy"}
 					mapId="	f765e88f64ae3cc	"
+					onClick={(e) => {
+						console.log(e.detail.latLng)
+						setCurrentBusLatlng(e.detail.latLng)
+					}}
 					options={{
 						minZoom: 11,
 						maxZoom: 16, // Set the maximum zoom level here
@@ -238,7 +371,7 @@ const MapPage = ({ currentBusLatlng, data, setCurrentBusDetails }) => {
 										<>
 											<Polyline
 												key={step.encodedPath}
-												strokeWeight={stepIndex}
+												strokeWeight={1}
 												strokeColor={"#356471"}
 												path={step.lat_lngs}
 											/>
